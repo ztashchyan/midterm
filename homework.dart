@@ -1,19 +1,21 @@
 class Homework {
-  final int? id;
+  final String id;
   final String title;
   final String subject;
-  final String description;
-  final String dueDate;
+  final String? description;
+  final DateTime dueDate;
   bool completed;
 
+
   Homework({
-    this.id,
+    required this.id,
     required this.title,
     required this.subject,
-    required this.description,
+    this.description,
     required this.dueDate,
     this.completed = false,
   });
+
 
   Map<String, dynamic> toMap() {
     return {
@@ -21,19 +23,20 @@ class Homework {
       'subject': subject,
       'title': title,
       'description': description,
-      'dueDate': dueDate,
+      'dueDate': dueDate.toIso8601String(),
       'completed': completed ? 1 : 0,
     };
   }
 
+
   factory Homework.fromMap(Map<String, dynamic> map) {
     return Homework(
-      id: map['id'],
-      subject: map['subject'],
-      title: map['title'],
-      description: map['description'],
-      dueDate: map['dueDate'],
-      completed: map['completed'] == 1,
+      id: map['id'].toString(),
+      subject: map['subject'] ?? '',
+      title: map['title'] ?? '',
+      description: map['description']?.toString(),
+      dueDate: DateTime.parse(map['dueDate'].toString()),
+      completed: (map['completed'] == 1 || map['completed'] == true),
     );
   }
 }
